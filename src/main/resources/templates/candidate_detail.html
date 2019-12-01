@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Required meta tags-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<div th:replace="fragments/header :: header-css" />
+	<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
+		rel="stylesheet" />
+	<!-- Title Page-->
+	<title>Candidate Detail</title>
+
+	<!-- Style -->
+	<style>
+		.error {
+			color: red;
+		}
+
+		.table-data2.table tbody td {
+			font-size: 15px;
+			color: #808080;
+			vertical-align: middle;
+			padding: 25px 10vh;
+			padding-right: 5px;
+			border: none;
+		}
+
+		.table-data2.table thead th {
+			font-size: 15px;
+			color: #555;
+			text-transform: uppercase;
+			border: none;
+			font-weight: 600;
+			vertical-align: top;
+			padding: 15px 10vh;
+			padding-right: 5px;
+		}
+
+		.table-data2.table tbody tr td:first-child {
+			-webkit-border-top-left-radius: 3px;
+			-moz-border-radius-topleft: 3px;
+			border-top-left-radius: 3px;
+			-webkit-border-bottom-left-radius: 3px;
+			-moz-border-radius-bottomleft: 3px;
+			border-bottom-left-radius: 3px;
+			vertical-align: middle;
+		}
+
+		.form-group {
+			justify-content: center;
+		}
+
+		.col-12.col-md-7.txtb {
+			padding: 0;
+		}
+
+		.txtb {
+			border-bottom: 2px solid #adadad;
+			position: relative;
+		}
+
+		.txtb input {
+			color: #333;
+			border: none;
+			border-color: none;
+			width: 100%;
+			outline: none;
+			background: none;
+			height: 40px;
+		}
+
+		Textarea#disabled-input {
+			border: none;
+		}
+
+		.form-control {
+			background-color: #ffffff;
+			border: none;
+		}
+
+		.table-responsive.table-responsive-data2 {
+			padding-bottom: 2vh;
+		}
+
+		select.custom-select.custom-select-sm.form-control.form-control-sm,
+		input.form-control.form-control-sm {
+			border: 1px solid #ced4da;
+		}
+
+		.header-flex {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.modal-dialog.modal-lg {
+			top: 30%;
+		}
+
+		/* input#status,
+		input#finalGrade {
+			border: solid 1px;
+		} */
+
+		.form-control-modal {
+			display: block;
+			width: 100%;
+			height: calc(1.5em + .75rem + 2px);
+			padding: .375rem .75rem;
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #495057;
+			background-color: #fff;
+			background-clip: padding-box;
+			border: 1px solid #ced4da;
+			border-radius: .25rem;
+			transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		}
+	</style>
+</head>
+
+<body class="animsition">
+
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<div class="col-lg-12">
+					<div class="card">
+						<form th:action="@{/editCandidate}" th:object="${candidateDTO}" id="myForm" method="post"
+							enctype="multipart/form-data" class="form-horizontal">
+							<div class="card-header">
+								<strong>Candidate </strong> Information
+							</div>
+							<div class="card-body card-block">
+								<nav>
+									<div class="nav nav-tabs" id="nav-tab" role="tablist">
+										<a class="nav-item nav-link active" id="custom-nav-course-info-tab"
+											data-toggle="tab" href="#custom-nav-course-info" role="tab"
+											aria-controls="custom-nav-course-info" aria-selected="true">Info</a>
+										<a class="nav-item nav-link" id="custom-nav-sup-info-tab" data-toggle="tab"
+											href="#custom-nav-sup-info" role="tab" aria-controls="custom-nav-sup-info"
+											aria-selected="false">Contact</a>
+										<a class="nav-item nav-link" id="custom-nav-up-to-date-tab" data-toggle="tab"
+											href="#custom-nav-up-to-date" role="tab"
+											aria-controls="custom-nav-up-to-date" aria-selected="false">School
+											Info</a> <a class="nav-item nav-link" id="custom-nav-planned-tab"
+											data-toggle="tab" href="#custom-nav-planned" role="tab"
+											aria-controls="custom-nav-planned" aria-selected="false">Training
+											Info</a>
+									</div>
+								</nav>
+								<div class="tab-content pl-3 pt-2" id="nav-tabContent" style="padding-top: 10px;">
+
+									<!--Info-->
+									<div class="tab-pane fade show active" id="custom-nav-course-info" role="tabpanel"
+										aria-labelledby="custom-nav-course-info-tab">
+										<!-- National ID+ -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													National ID: </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input id="idUnchange" type="hidden" name="idCandidate"
+													th:value="*{idCandidate}" />
+												<input type="text" id="nationalID" name="nationalID"
+													th:value="*{nationalID}" class="form-control" />
+											</div>
+										</div>
+
+										<!-- Name -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">Name</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="name" name="name" th:value="*{name}"
+													class="form-control" />
+											</div>
+										</div>
+
+										<!-- Date Of Birth -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class="form-control-label">Date
+													Of Birth</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="dayOfBirth" name="dayOfBirth" th:value="${#dates.format(candidateDTO.dayOfBirth, 'dd/MM/yyyy')}"
+													class="form-control datepicker-here" />
+											</div>
+										</div>
+										
+										<!-- gender -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class="form-control-label">Date
+													Of Birth</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="gender" name="gender" th:value="*{gender}"
+													class="form-control" />
+											</div>
+										</div>
+									</div>
+
+									<!--Contact-->
+									<div class="tab-pane fade" id="custom-nav-sup-info"
+										role="tabpanel" aria-labelledby="custom-nav-sup-info-tab">
+										<!-- Email -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Email </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="email" name="email"
+													th:value="*{email}" class="form-control disable" />
+											</div>
+										</div>
+
+										<!-- Phone -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">Phone</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="phone" name="phone"
+													th:value="*{phone}" class="form-control" />
+											</div>
+										</div>
+
+										<!-- Facebook -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">Facebook</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="facebook" name="facebook"
+													th:value="*{facebook}" class="form-control" />
+											</div>
+										</div>
+									</div>
+
+									<!--School Info-->
+									<div class="tab-pane fade" id="custom-nav-up-to-date"
+										role="tabpanel" aria-labelledby="custom-nav-contact-tab">
+										<!-- University Name -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													University Name </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<select name="universityName" id="universityName"
+													class="form-control">
+													<option th:each="i : ${listSchool}"
+														th:value="${i.idSchoolCode}" th:text="${i.universityName}"
+														th:selected="${i.universityName} == ${candidateDTO.universityName}"></option>\
+												</select>
+											</div>
+										</div>
+
+										<!-- Garduation Date -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="select" class=" form-control-label">Garduation
+													Date</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="garduationDate" name="garduationDate"
+													th:value="${#dates.format(candidateDTO.garduationDate, 'dd/MM/yyyy')}"
+													class="form-control datepicker-here" />
+											</div>
+										</div>
+
+										<!-- Skill -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Skill </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<select name="skill" id="skill" class="form-control">
+													<option th:each="i: ${listSkill}"
+														th:value="${i.idSubSubject}" th:text="${i.skill}"
+														th:selected="${i.skill} == ${candidateDTO.skill}"></option>
+												</select>
+											</div>
+										</div>
+
+										<!-- GPA -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													GPA </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="gpa" name="gpa" th:value="*{gpa}"
+													class="form-control" />
+											</div>
+										</div>
+									</div>
+
+									<!--Training Info-->
+									<div class="tab-pane fade" id="custom-nav-planned"
+										role="tabpanel" aria-labelledby="custom-nav-planned-tab">
+
+										<!-- Working Date -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="select" class=" form-control-label">Working
+													Date</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="workingDate" name="workingDate"
+													th:value="${#dates.format(candidateDTO.workingDate, 'dd/MM/yyyy')}"
+													class="form-control datepicker-here" />
+											</div>
+										</div>
+
+										<!-- reCer -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													ReCer </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="reCer" name="reCer"
+													th:value="*{reCer}" class="form-control" />
+											</div>
+										</div>
+
+										<!-- Re Status -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="select" class=" form-control-label">RecStatus</label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="recStatus" name="recStatus"
+													th:value="*{recStatus}" class="form-control" />
+											</div>
+										</div>
+
+										<!-- Re Detail Note -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Re Detail Note </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="reDetailNote" name="reDetailNote"
+													th:value="*{reDetailNote}" class="form-control" />
+											</div>
+										</div>
+										
+										<!-- CV Number -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													CV Number </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" id="cvNumber" name="cvNumber"
+													th:value="*{cvNumber}" class="form-control" />
+											</div>
+										</div>
+										
+										<!-- Contract Type -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Contract Type </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<input type="text" class="form-control" name="contractType"
+													th:value="*{contractType}" />
+											</div>
+										</div>
+										<!-- Update By -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Update By </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<div class="form-control disable" th:text="*{updateBy}" name="updateBy"></div>
+											</div>
+										</div>
+										<!-- Update Date -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Update Date </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<div class="form-control disable" name="updateDate"
+													th:text="${#dates.format(candidateDTO.updateDate, 'dd/MM/yyyy')}">
+												</div>
+											</div>
+										</div>
+										<!-- Note -->
+										<div class="row form-group">
+											<div class="col col-md-4">
+												<label for="disabled-input" class=" form-control-label">
+													Note </label>
+											</div>
+											<div class="col-12 col-md-7 txtb">
+												<textarea th:field="*{note}" name="note" rows="2"
+													class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="card-footer">
+								<button id="save" type="submit" class="btn btn-primary ">
+									<i class="fa fa-dot-circle-o"></i> Save
+								</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- DATA TABLE-->
+				<div class="col-lg-12">
+					<div class="card ">
+						<div class="card-header">
+							<div class="header-flex">
+								<div>
+									<strong>Enrolled </strong>Candidate
+								</div>
+							</div>
+						</div>
+						<div class="card-body card-block">
+							<div class="table-responsive table-responsive-data2">
+								<table id="candidateList" class="table table-hover">
+									<thead>
+										<tr>
+											<th>Course Code</th>
+											<th>Planned Start Date</th>
+											<th>Planned End Date</th>
+											<th>Status</th>
+											<th>Final Grade</th>
+											<th>Update By</th>
+											<th>Update Date</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<div th:each="contents,iterStat : ${candidateEventList}">
+											<tr>
+												<td><a
+													th:href="@{/eventDetail/{id}(id = ${contents.idEvent})}"
+													th:text="${contents.courseCode}"></a></td>
+												<td
+													th:text="${#dates.format(contents.plannedStartDate, 'dd/MM/yyyy')}"></td>
+												<td
+													th:text="${#dates.format(contents.plannedEndDate, 'dd/MM/yyyy')}"></td>
+												<td th:text="${contents.canStatus}"></td>
+												<td th:text="${contents.finalGrade}"></td>
+												<td th:text="${contents.updateBy}"></td>
+												<td
+													th:text="${#dates.format(contents.updateDate, 'dd/MM/yyyy')}"></td>
+												<td><a th:href="@{/findCE/(id=${contents.id})}"
+													class="btn btn-info edit-button"> Edit</a></td>
+											</tr>
+										</div>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END DATA TABLE-->
+			</div>
+		</div>
+		<!-- modal large -->
+		<div class="myForm">
+			<form id="saveCampus" th:action="@{/updateCEvent}" method="post">
+				<div class="modal fade" id="largeModal" tabindex="-1" role="dialog"
+					aria-labelledby="largeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="largeModalLabel">Update
+									Candidate Event</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- CP Code -->
+								<input type="hidden" id="id" name="id" class="form-control-modal" />
+
+								<!-- Status -->
+								<div class="row form-group">
+									<div class="col col-md-2">
+										<label for="programName" class=" form-control-label">Status</label>
+									</div>
+									<div class="col-12 col-md-10">
+										<select id="status" class="form-control-modal" name="status">
+												<option value="Passed">Passed</option>
+												<option value="Done">Done</option>
+												<option value="Cancel">Cancel</option>
+												<option value="Drop-Out">Drop-Out</option>
+												<option value="Active">Active</option>
+												<option value="Failed">Failed</option>
+										</select>
+									</div>
+								</div>
+
+								<!-- Final Grade -->
+								<div class="row form-group">
+									<div class="col col-md-2">
+										<label for="programCode" class=" form-control-label">Final
+											Grade</label>
+									</div>
+									<div class="col-12 col-md-10">
+										<input type="text" id="finalGrade" name="finalGrade" value=""
+											class="form-control-modal" />
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Cancel</button>
+								<input type="submit" class="btn btn-primary" value="Save" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- end modal large -->
+	</div>
+
+	<!-- href select -->
+	<div th:replace="fragments/header :: after-body-script" />
+	<script type="text/javascript"
+		src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('.edit-button').on('click', function (e) {
+				e.preventDefault()
+				var href = $(this).attr('href')
+				$.get(href, function (ce, status) {
+					$('.myForm #id').val(ce.id)
+					var select
+					switch (ce.status) {
+						case 'Passed':
+							select = 0
+							break;
+						case 'Done':
+							select = 1
+							break;
+						case 'Cancel':
+							select = 2
+							break;
+						case 'Drop-Out':
+							select = 3
+							break;
+						case 'Active':
+							select = 4
+							break;
+						case 'Failed':
+							select = 5
+							break;
+					}
+					document.getElementById("status").selectedIndex = select
+					$('.myForm #finalGrade').val(ce.finalGrade)
+				})
+				$('.myForm #largeModal').modal()
+				return false;
+			})
+		})
+		$.fn.datepicker.language['en'] = {
+			days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+				'Friday', 'Saturday'],
+			daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+			daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+			months: ['January', 'February', 'March', 'April', 'May', 'June',
+				'July', 'August', 'September', 'October', 'November',
+				'December'],
+			monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+				'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+			today: 'Today',
+			clear: 'Clear',
+			dateFormat: 'dd/mm/yyyy',
+			timeFormat: 'hh:ii aa',
+			firstDay: 0
+		};
+	</script>
+</body>
+
+</html>
+<!-- end document-->

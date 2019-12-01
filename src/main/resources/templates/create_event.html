@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<div th:replace="fragments/header :: header-css" />
+<!-- Title Page-->
+<title>Create Event</title>
+<style>
+.error {
+	color: red;
+}
+</style>
+</head>
+
+<body class="animsition">
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<div class="section__content section__content--p30">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-header">
+										<strong>Create Event</strong>
+									</div>
+									<form id="saveEvent" th:action="@{/saveEvent}"
+										th:object="${event}" method="post"
+										enctype="multipart/form-data" class="form-horizontal">
+										<div class="card-body card-block">
+
+											<!-- Course Name -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class=" form-control-label">Course
+														Name</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select name="courseName" id="courseName"
+														class="form-control">
+														<option value="0">Please select</option>
+														<option th:each="CProgram : ${listCProgram}"
+															th:value="${CProgram.idCProgram} + '_' +${CProgram.programCode}"
+															th:text="${CProgram.programName}"></option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Subject Type -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Subject
+														Type</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="subjectType" name="subjectType"
+														placeholder="IT Technical" class="form-control">
+													<!-- <small class="form-text text-muted">This is a help text</small> -->
+												</div>
+											</div>
+
+											<!-- Sub-SubjectType -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class=" form-control-label">Sub-Subject
+														Type</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select name="subSubjectType" id="subSubjectType"
+														class="form-control">
+														<option value="0">Please select</option>
+														<option th:each="SubSubjectType : ${listSubSubjectType}"
+															th:value="${SubSubjectType.idSubSubject} + '_' + ${SubSubjectType.skill}"
+															th:text="${SubSubjectType.skill}"></option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Subject Type -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Format
+														Type</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="formatType" name="formatType"
+														placeholder="Blended" class="form-control">
+													<!-- <small class="form-text text-muted">This is a help text</small> -->
+												</div>
+											</div>
+
+											<!-- Supplier/Partner -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class=" form-control-label">Supplier/Partner</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select name="supplier" id="supplier" class="form-control">
+														<option value="0">Please select</option>
+														<option th:each="SchoolCode : ${listSchool}"
+															th:value="${SchoolCode.idSchoolCode} + '_' + ${SchoolCode.universityCode}"
+															th:text="${SchoolCode.universityName}"></option>
+													</select>
+												</div>
+											</div>
+
+											<!-- P.Start Date -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Planned
+														Start Date</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="plannedStartDate"
+														name="plannedStartDate" placeholder="Planned Start Date"
+														class="form-control datepicker-here">
+												</div>
+											</div>
+											<!-- P.End Date -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Planned
+														End Date</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="plannedEndDate"
+														name="plannedEndDate" placeholder="Planned End Date"
+														class="form-control datepicker-here">
+												</div>
+											</div>
+
+											<!-- Planned Expense -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Planned
+														Expense</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="plannedExpense"
+														name="plannedExpense" class="form-control">
+												</div>
+											</div>
+
+											<!-- Budget Code -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Budget
+														Code</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" id="budgetCode" name="budgetCode"
+														class="form-control">
+												</div>
+											</div>
+
+											<!-- Note -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="textarea-input" class=" form-control-label">Note</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<textarea name="note" id="note" rows="9"
+														placeholder="Content..." class="form-control"></textarea>
+												</div>
+											</div>
+
+										</div>
+										<div class="card-footer">
+											<button type="submit" class="btn btn-primary btn-sm">
+												<i class="fa fa-dot-circle-o"></i> Submit
+											</button>
+											<button type="reset" class="btn btn-danger btn-sm">
+												<i class="fa fa-ban"></i> Reset
+											</button>
+										</div>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: after-body-script" />
+
+	<script type="text/javascript">
+		$.fn.datepicker.language['en'] = {
+			days : [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+					'Friday', 'Saturday' ],
+			daysShort : [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+			daysMin : [ 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa' ],
+			months : [ 'January', 'February', 'March', 'April', 'May', 'June',
+					'July', 'August', 'September', 'October', 'November',
+					'December' ],
+			monthsShort : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+					'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+			today : 'Today',
+			clear : 'Clear',
+			dateFormat : 'dd/mm/yyyy',
+			timeFormat : 'hh:ii aa',
+			firstDay : 0
+		};
+	</script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							//Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+							$("#saveEvent")
+									.validate(
+											{
+
+												rules : {
+													subjectType : {
+														required : true,
+														maxlength : 50
+													},
+													formatType : {
+														required : true,
+														maxlength : 50
+													},
+													budgetCode : {
+														maxlength : 50,
+														digits : true
+													},
+													plannedExpense : {
+														maxlength : 50,
+														digits : true
+													},
+													courseName : {
+														selectcheck : true
+													},
+													subSubjectType : {
+														selectcheck : true
+													},
+													supplier : {
+														selectcheck : true
+													},
+													plannedEndDate : {
+														isAfterStartDate : true
+													},
+													plannedStartDate : {
+														isCurrentDate : true
+													},
+													note : {
+														maxlength : 3000
+													}
+												},
+												messages : {
+													subjectType : "Subject type cannot be blank and required max length 50 characters",
+													formatType : "Format type cannot be blank and required max length 50 characters",
+													budgetCode : "Budget code required max length 50 characters and must be a digit",
+													plannedExpense : "Planned expense required max length 50 characters and must be a digit",
+													note : "Planned expense required max length 3000 characters"
+												},
+												highlight : function(element) {
+													$(element).addClass(
+															'is-invalid');
+												},
+												unhighlight : function(element) {
+													$(element).removeClass(
+															'is-invalid');
+												},
+
+											});
+
+							var isCurrentDate = function(current, startDatestr) {
+								var inDate = new Date(current);
+								var split = startDatestr.split("/");
+								var startDate = split[1] + "/" + split[0] + "/"
+										+ split[2];
+								var eDate = new Date(startDate);
+								if (inDate <= eDate) {
+									return true;
+								}
+								return false;
+
+							};
+							jQuery.validator
+									.addMethod("isCurrentDate", function(value,
+											element) {
+										var today = new Date();
+										var dd = String(today.getDate())
+												.padStart(2, '0');
+										var mm = String(today.getMonth() + 1)
+												.padStart(2, '0'); //January is 0!
+										var yyyy = today.getFullYear();
+										today = mm + '/' + dd + '/' + yyyy;
+										return isCurrentDate(today, $(
+												'#plannedStartDate').val()
+												.toString());
+									},
+											"Start date must be larger than current date");
+
+							var isAfterStartDate = function(startDateStr,
+									endDateStr) {
+								var split1 = startDateStr.split("/");
+								var startDate = split1[1] + "/" + split1[0]
+										+ "/" + split1[2];
+								var split2 = endDateStr.split("/");
+								var endDate = split2[1] + "/" + split2[0] + "/"
+										+ split2[2];
+								var inDate = new Date(startDate), eDate = new Date(
+										endDate);
+								if (inDate <= eDate) {
+									return true;
+								}
+								return false;
+							};
+							jQuery.validator.addMethod("isAfterStartDate",
+									function(value, element) {
+										return isAfterStartDate($(
+												'#plannedStartDate').val()
+												.toString(), value);
+									},
+									"End date must be larger than start date");
+							jQuery.validator.addMethod('selectcheck', function(
+									value) {
+								return (value !== '0');
+							}, "Please select your option");
+						});
+	</script>
+</body>
+
+</html>
+<!-- end document-->

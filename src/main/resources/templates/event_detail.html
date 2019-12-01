@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <div th:replace="fragments/header :: header-css" />
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
+        rel="stylesheet" />
+    <!-- Title Page-->
+    <title>Event Detail</title>
+
+    <!-- Style -->
+    <style>
+        .error {
+            color: red;
+        }
+
+        .table-data2.table tbody td {
+            font-size: 15px;
+            color: #808080;
+            vertical-align: middle;
+            padding: 25px 10vh;
+            padding-right: 5px;
+            border: none;
+        }
+
+        .table-data2.table thead th {
+            font-size: 15px;
+            color: #555;
+            text-transform: uppercase;
+            border: none;
+            font-weight: 600;
+            vertical-align: top;
+            padding: 15px 10vh;
+            padding-right: 5px;
+        }
+
+        .table-data2.table tbody tr td:first-child {
+            -webkit-border-top-left-radius: 3px;
+            -moz-border-radius-topleft: 3px;
+            border-top-left-radius: 3px;
+            -webkit-border-bottom-left-radius: 3px;
+            -moz-border-radius-bottomleft: 3px;
+            border-bottom-left-radius: 3px;
+            vertical-align: middle;
+        }
+
+        .form-group {
+            justify-content: center;
+        }
+
+        .col-12.col-md-7.txtb {
+            padding: 0;
+        }
+
+        .txtb {
+            border-bottom: 2px solid #adadad;
+            position: relative;
+        }
+
+        .txtb input {
+            color: #333;
+            border: none;
+            border-color: none;
+            width: 100%;
+            outline: none;
+            background: none;
+            height: 40px;
+        }
+
+        Textarea#disabled-input {
+            border: none;
+        }
+
+        .form-control {
+            background-color: #ffffff;
+            border: none;
+        }
+
+        .table-responsive.table-responsive-data2 {
+            padding-bottom: 2vh;
+        }
+
+        select.custom-select.custom-select-sm.form-control.form-control-sm,
+        input.form-control.form-control-sm {
+            border: 1px solid #ced4da;
+        }
+
+        .flex-content {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body class="animsition" onchange="changeCourseCode()">
+
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <div th:replace="fragments/header-mobile :: header-mobile" />
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <div th:replace="fragments/header :: header" />
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <form th:action="@{/editEvent/{id}(id=${eventDTO.idEvent})}" th:object="${eventDTO}" id="myForm"
+                            method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <div class="card-header">
+                                <strong>Event Detail</strong> Information
+                            </div>
+                            <div class="card-body card-block">
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active" id="custom-nav-course-info-tab"
+                                            data-toggle="tab" href="#custom-nav-course-info" role="tab"
+                                            aria-controls="custom-nav-course-info" aria-selected="true">COURSE</a>
+                                        <a class="nav-item nav-link" id="custom-nav-sup-info-tab" data-toggle="tab"
+                                            href="#custom-nav-sup-info" role="tab" aria-controls="custom-nav-sup-info"
+                                            aria-selected="false">SUPPORTING</a>
+                                        <a class="nav-item nav-link" id="custom-nav-up-to-date-tab" data-toggle="tab"
+                                            href="#custom-nav-up-to-date" role="tab"
+                                            aria-controls="custom-nav-up-to-date" aria-selected="false">UP-TO-DATE
+                                            IMPLEMENTATION</a> <a class="nav-item nav-link" id="custom-nav-planned-tab"
+                                            data-toggle="tab" href="#custom-nav-planned" role="tab"
+                                            aria-controls="custom-nav-planned" aria-selected="false">PLANNED
+                                            IMPLEMENTATION</a> <a class="nav-item nav-link" id="custom-nav-actual-tab"
+                                            data-toggle="tab" href="#custom-nav-actual" role="tab"
+                                            aria-controls="custom-nav-actual" aria-selected="false">ACTUAL
+                                            IMPLEMENTATION</a>
+                                    </div>
+                                </nav>
+                                <div class="tab-content pl-3 pt-2" id="nav-tabContent" style="padding-top: 10px;">
+                                    <div class="tab-pane fade show active" id="custom-nav-course-info" role="tabpanel"
+                                        aria-labelledby="custom-nav-course-info-tab">
+                                        <!-- University Name -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+                                                    Course Code: </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input id="idUnchange" type="hidden" th:value="*{courseCode}" />
+                                                <input type="text" id="courseid" name="courseCode"
+                                                    th:value="*{courseCode}" class="form-control disable" readonly />
+                                            </div>
+                                        </div>
+
+                                        <!-- Course Name -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">Course
+                                                    Name</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <select name="courseName" id="courseName" class="form-control">
+                                                    <option th:each="i : ${listCProgram}"
+                                                        th:value="${i.idCProgram} + '_' +${i.programCode}"
+                                                        th:text="${i.programName}"
+                                                        th:selected="${i.programName} == ${cProgram.programName}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Site -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class="form-control-label">Site</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${schoolCode.site}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-nav-sup-info" role="tabpanel"
+                                        aria-labelledby="custom-nav-sup-info-tab">
+                                        <!-- Course Status -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+                                                    Course Status </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div id="status" class="form-control disable" th:text="${eventStatus}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Start Year -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">Start
+                                                    Year</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualStartDate, 'yyyy')}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- End Year -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">End
+													Year</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualEndDate, 'yyyy')}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Start Month -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">Start
+													Month</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualStartDate, 'MM')}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Month -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">End
+													Month</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualEndDate, 'MM')}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-nav-up-to-date" role="tabpanel" aria-labelledby="custom-nav-contact-tab">
+                                        <!-- Start Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Start Date </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualStartDate, 'dd/MM/yyyy')}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- End Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													End Date </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.actualEndDate, 'dd/MM/yyyy')}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Learning Time -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Learning Time </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${cProgram.time} + ' ' + Hour"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Number Of Student -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Number Of Student </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${canDto.acutalNumberOfTrainees} > 0 ? ${canDto.acutalNumberOfTrainees} : ${#lists.size(candidateList)}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Expense -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Expense </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="*{actualExpense}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-nav-planned" role="tabpanel" aria-labelledby="custom-nav-planned-tab">
+                                        <!-- Subject Type -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="select" class=" form-control-label">Subject
+													Type</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" id="disabled-input" name="subjectType" th:value="*{subjectType}" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Sub-Subject Type -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="select" class=" form-control-label">Sub-Subject
+													Type</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <select name="subSubjectType" id="subSubjectType" class="form-control">
+													<option th:each="i: ${listSubSubjectType}"
+														th:value="${i.idSubSubject} + '_' + ${i.skill}"
+														th:text="${i.skill}"
+														th:selected="${i.skill} == ${subjectType.skill}"></option>
+												</select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Format Type -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Format Type </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" id="formatType" name="formatType" th:value="*{formatType}" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Supplier/Partner -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="select" class=" form-control-label">Supplier/Partner</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <select name="supplier" id="supplier" class="form-control">
+													<option th:each="i : ${listSchool}"
+														th:value="${i.idSchoolCode} + '_' + ${i.universityCode}"
+														th:text="${i.universityName}"
+														th:selected="${i.universityName} == ${schoolCode.universityName}"></option>\
+												</select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Planned Number Of Student -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Planned Number Of Student </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#lists.size(candidateList)}"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Budget Code -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Budget Code </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" class="form-control" name="budgetCode" th:value="*{budgetCode}" />
+                                            </div>
+                                        </div>
+                                        <!-- Planned Expense -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Planned Expense </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" id="plannedExpense" name="plannedExpense" th:value="*{plannedExpense}" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <!-- Planned Learning Time -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Planned Learning Time </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control  disable" th:text="${cProgram.time} + ' ' + Hour"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Planned Start Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Planned Start Date </label>
+                                            </div>
+                                            <div id="plannedStartDate-hidden" class="col-12 col-md-7 txtb">
+                                                <input type="text" name="plannedStartDate" id="plannedStartDate"
+                                                class="form-control datepicker-here" th:value="${#dates.format(eventDTO.plannedStartDate, 'dd/MM/yyyy')}"/>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb" id="plannedStartDate-show" style="display: none;">
+                                                <div class="form-control disable" 
+                                                th:text="${#dates.format(eventDTO.plannedStartDate, 'dd/MM/yyyy')}"></div>
+                                            </div>
+                                        </div>
+                                    
+                                        <!-- Planned End Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Planned End Date </label>
+                                            </div>
+                                            <div id="plannedEndDate-hidden" class="col-12 col-md-7 txtb">
+                                                <input type="text" name="plannedEndDate" id="plannedEndDate" th:value="${#dates.format(eventDTO.plannedEndDate, 'dd/MM/yyyy')}" class="form-control datepicker-here" />
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb" id="plannedEndDate-show" style="display: none;">
+                                                <div class="form-control disable" 
+                                                th:text="${#dates.format(eventDTO.plannedEndDate, 'dd/MM/yyyy')}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                             
+                                    <div class="tab-pane fade" id="custom-nav-actual" role="tabpanel" aria-labelledby="custom-nav-actual-tab">
+                                        <!-- Actual Start Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Actual Start Date </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" id="actualDate" name="actualStartDate" th:value="${#dates.format(eventDTO.actualStartDate, 'dd/MM/yyyy')}" class="form-control datepicker-here" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Actual End Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Actual End Date </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <input type="text" id="actualEndDate" name="actualEndDate" th:value="${#dates.format(eventDTO.actualEndDate, 'dd/MM/yyyy')}" class="form-control datepicker-here" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Actual Learning Time -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Actual Learning Time </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${cProgram.time} + ' ' + Hour"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actual Number Of Trainees -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Actual Number Of Trainees </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${canDto.acutalNumberOfTrainees}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actual Expense -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Actual Expense </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="*{actualExpense}"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Number Of Enrolled Students -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Number Of Enrolled Students </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${canDto.acutalNumberOfEnrolled}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Number Of Certified Students -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Number Of Certified Students </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${canDto.acutalNumberOfPassed}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Updated By -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Updated By </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="*{updateBy}"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Updated Date -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="disabled-input" class=" form-control-label">
+													Updated Date </label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <div class="form-control disable" th:text="${#dates.format(eventDTO.updateDate, 'dd/MMM/yyyy')}"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Training Feedback -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="textarea-input" class=" form-control-label">Training
+													Feedback</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <textarea th:field="*{trainingFeedback}" name="trainingFeedback" id="trainingFeedback" rows="2" placeholder="Training Feedback..." class="form-control"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Training Feedback Content -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="textarea-input" class=" form-control-label">Training
+													Feedback Content</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+
+                                                <textarea th:field="*{trainingFeedbackContent}" name="trainingFeedbackContent" id="trainingFeedbackContent" rows="2" placeholder="Training Feedback Content..." class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- Training Feedback Teacher -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="textarea-input" class=" form-control-label">Training
+													Feedback Teacher</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <textarea th:field="*{trainingFeedbackTeacher}" name="trainingFeedbackTeacher" id="trainingFeedbackTeacher" rows="2" placeholder="Training Feedback Teacher..." class="form-control"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Training Feedback Organization -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="textarea-input" class=" form-control-label">Training
+													Feedback Organization</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <textarea th:field="*{trainingFeedbackOrganization}" name="trainingFeedbackOrganization" id="trainingFeedbackOrganization" rows="2" placeholder="Training Feedback Organization..." class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- Note -->
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
+                                                <label for="textarea-input" class=" form-control-label">Note
+												</label>
+                                            </div>
+                                            <div class="col-12 col-md-7 txtb">
+                                                <textarea th:field="*{note}" name="note" rows="2" placeholder="Training Feedback Organization..." class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="hidden" th:value="*{idEvent}" name="idEvent" />
+                                <button id="save" type="submit" class="btn btn-primary ">
+									<i class="fa fa-dot-circle-o"></i> Save
+								</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- DATA TABLE-->
+                <div class="col-lg-12">
+                    <div class="card ">
+                        <div class="card-header flex-content">
+                                <div>
+                                    <strong>Enrolled </strong>Candidate
+                             
+                                </div>
+                                <div style="display: flex;">
+                                        <select id="select" class="custom-select custom-select-sm form-control form-control-sm" style="height: auto;">
+                                                <option disable select>Change Status</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Done">Done</option>
+                                                <option value="Passed">Passed</option>
+                                                <option value="Drop-Out">Drop-Out</option>
+                                                <option value="Cancel">Cancel</option>
+                                                <option value="Failed">Failed</option>
+                                            </select>
+                                    <div class="dropdown show" style="margin-left: 5px; ">
+                                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              Insert Candidate
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                              <a class="dropdown-item" th:href="@{/candidateEvent/{id}(id=${eventDTO.idEvent})}">Manually</a>
+                                              <a class="dropdown-item" th:href="@{/import/{id}(id=${eventDTO.idEvent})}">Import From Excel</a>
+                                            </div>
+                                          </div>
+                                                
+                                </div>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="table-responsive table-responsive-data2">
+                                <table id="candidateList" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Email</th>
+                                            <th>Name</th>
+                                            <th>DOB</th>
+                                            <th>Gender</th>
+                                            <th>Phone</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DATA TABLE-->
+            </div>
+        </div>
+    </div>
+
+    <!-- href select -->
+    <div th:replace="fragments/header :: after-body-script" />
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script th:src="@{/js/eventDetail.js}"></script>
+    <script>
+        showTable()
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'dd/mm/yyyy',
+            timeFormat: 'hh:ii aa',
+            firstDay: 0
+        };
+    </script>
+           <script type="text/javascript">
+            checkDate();
+            function checkDate() {
+                var startDate = document.getElementById('plannedStartDate').value;
+                var status = document.getElementById("status").innerHTML
+                var today = new Date();
+                var dd = String(today.getDate())
+                    .padStart(2, '0');
+                var mm = String(today.getMonth() + 1)
+                    .padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                today = dd + '/' + mm + '/' + yyyy;
+                if (status == 'Done') {
+                    document.getElementById("plannedStartDate-hidden").style.display = "none";
+                    document.getElementById("plannedStartDate-show").style.display = "block";
+                    document.getElementById("plannedEndDate-hidden").style.display = "none";
+                    document.getElementById("plannedEndDate-show").style.display = "block";
+                    document.getElementById("save").style.visibility = "hidden";
+                }
+                if (startDate > today) {
+                    document.getElementById("plannedStartDate-hidden").style.display = "block";
+                    document.getElementById("plannedStartDate-show").style.display = "none";
+                }
+            }
+        </script>
+
+</body>
+
+</html>
+<!-- end document-->

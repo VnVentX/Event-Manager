@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div th:replace="fragments/header :: header-css" />
+    <title>Report Page</title>
+    <style type="text/css">
+    .no-gutters {
+	margin-bottom: 78px;
+}
+    </style>
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <div th:replace="fragments/header-mobile :: header-mobile" />
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <div th:replace="fragments/header :: header" />
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">overview</h2><br /><br /><br />
+                                    
+                                </div>
+                            </div>
+                            <div class="row m-t-25">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="overview-item overview-item--c1">
+                                        <div class="overview__inner">
+                                            <div class="overview-box clearfix">
+
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-calendar-note"></i>
+                                                </div>
+                                                <div class="text">
+                                                    <h2>Event</h2>
+                                                    <span><br /></span>
+                                                    <span id="planning"></span><br />
+                                                    <span id="ongoing"></span><br />
+                                                    <span id="done"></span><br /><br />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="overview-item overview-item--c2">
+                                        <div class="overview__inner">
+                                            <div class="overview-box clearfix">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-graduation-cap"></i>
+                                                </div>
+                                                <div class="text">
+                                                    <h2>Skill</h2>
+                                                    <span>On going</span>
+                                                </div>
+                                                <div class="overview-chart">
+                                                    <div class="chartjs-size-monitor"
+                                                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                        <div class="chartjs-size-monitor-expand"
+                                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                            <div
+                                                                style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="chartjs-size-monitor-shrink"
+                                                            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                            <div
+                                                                style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <canvas id=chartBarWidget height="134" width="352"
+                                                        class="chartjs-render-monitor"
+                                                        style="display: block; height: 67px; width: 176px;"></canvas>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="overview-item overview-item--c3">
+                                        <div class="overview__inner">
+                                            <div class="overview-box clearfix">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-accounts-alt"></i>
+                                                </div>
+                                                <div class="text">
+                                                    <h2>Candidate</h2>
+                                                    <span>by month</span>
+                                                </div>
+                                            </div>
+                                            <div class="overview-chart">
+                                                <div class="chartjs-size-monitor"
+                                                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                    <div class="chartjs-size-monitor-expand"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="chartjs-size-monitor-shrink"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="chartjs-size-monitor"
+                                                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                    <div class="chartjs-size-monitor-expand"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="chartjs-size-monitor-shrink"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <canvas id=chart3 height="230" width="600"
+                                                    class="chartjs-render-monitor"
+                                                    style="display: block; height: 115px; width: 300px;"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="overview-item overview-item--c4">
+                                        <div class="overview__inner">
+                                            <div class="overview-box clearfix">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-balance"></i>
+                                                </div>
+                                                <div class="text">
+                                                    <h2>School</h2>
+                                                    <span id="lbdescSchool"></span>
+                                                </div>
+                                            </div>
+                                            <div class="overview-chart">
+                                                <div class="chartjs-size-monitor"
+                                                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                    <div class="chartjs-size-monitor-expand"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="chartjs-size-monitor-shrink"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="chartjs-size-monitor"
+                                                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                    <div class="chartjs-size-monitor-expand"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="chartjs-size-monitor-shrink"
+                                                        style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                        <div
+                                                            style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <canvas id=chart4 height="230" width="600"
+                                                    class="chartjs-render-monitor"
+                                                    style="display: block; height: 115px; width: 300px;"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-6">
+                                    <div class="au-card m-b-30">
+                                        <div class="au-card-inner">
+                                            <div class="chartjs-size-monitor"
+                                                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                <div class="chartjs-size-monitor-expand"
+                                                    style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div
+                                                        style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                    </div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink"
+                                                    style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="title-2 m-b-40">Status of Candidate (Chart by %)</h3>
+                                            <div class="row no-gutters">
+                                                <div class="col-xl-8">
+                                                    <div class="percent-chart">
+                                                        <div class="chartjs-size-monitor"
+                                                            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                            <div class="chartjs-size-monitor-expand"
+                                                                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                                <div
+                                                                    style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                                </div>
+                                                            </div>
+                                                            <div class="chartjs-size-monitor-shrink"
+                                                                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                                <div
+                                                                    style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <canvas id="chartContainer2" height="560" width="366"
+                                                            class="chartjs-render-monitor"
+                                                            style="display: block; height: 200px; width: 150px;"></canvas>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <div id="detailStatus" class="chart-note-wrap"><br />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="au-card m-b-30">
+                                        <div class="au-card-inner">
+                                            <div class="chartjs-size-monitor"
+                                                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                <div class="chartjs-size-monitor-expand"
+                                                    style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div
+                                                        style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                                                    </div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink"
+                                                    style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 id="lbNumOfCandidate" class="title-2 m-b-40"></h3>
+                                            <canvas id="chartBar" height="674" width="1350"
+                                                class="chartjs-render-monitor"
+                                                style="display: block; height: 337px; width: 675px;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+        	
+        </div>
+
+    </div>
+
+
+    <!-- href select & custom chart -->
+    <script type="text/javascript">
+    
+    	
+    	
+        window.onload = function () {
+
+
+            function renderChartCircle(data) {
+                var statusCount = [];
+                var statusName = [];
+                var total = 0;
+                var percentCount = [];
+                var myColor = ['#00b5e9', '#FFD04F', '#F39861', '#EDEDED', '#FA4251', '#6BA249'];
+                var newColorArr = [];
+                for (var i = 0; i < data.length; i++) {
+                    statusCount.push(data[i].statusCount);
+                    statusName.push(data[i].status);
+                    total += data[i].statusCount;
+                    newColorArr[i] = myColor[i];
+                }
+                /* console.log(newColorArr); */
+                for (var i = 0; i < data.length; i++) {
+                    percentCount.push((data[i].statusCount * 100 / total).toFixed(2));
+                }
+                var ctx = document.getElementById("chartContainer2");
+                if (ctx) {
+                	
+                    var myChart = new Chart(ctx, {
+                        type: 'doughnut',
+                     
+                        data: {
+                            datasets: [
+                                {
+                                    label: "Status Stastistical (%)",
+                                    data: percentCount,
+                                    backgroundColor: newColorArr,
+                                    borderWidth: [
+                                        0, 0
+                                    ],
+                                    hoverBorderColor: [
+                                        'transparent',
+                                        'transparent'
+                                    ]
+                                }
+                            ],
+                            labels: statusName
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            cutoutPercentage: 55,
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                titleFontFamily: "Poppins",
+                                xPadding: 15,
+                                yPadding: 10,
+                                caretPadding: 0,
+                                bodyFontSize: 16
+                            }
+                        }
+
+                    });
+                }
+                var detailSpace = document.getElementById("detailStatus");
+                for (var i = 0; i < data.length; i++) {
+                    var div1 = document.createElement("div");
+                    var span1 = document.createElement("span");
+                    var span2 = document.createElement("span");
+                    div1.setAttribute("class", "chart-note mr-0 d-block");
+                    span1.setAttribute("class", "dot");
+                    span1.setAttribute("style", "  background: " + newColorArr[i]);
+                    span2.setAttribute("id", "descChart");
+                    span2.innerHTML = data[i].status + ": " + data[i].statusCount;
+                    div1.appendChild(span1);
+                    div1.appendChild(span2);
+                    detailSpace.appendChild(div1);
+                    /* console.log(div1); */
+                }
+
+
+
+            }
+
+            function renderBarChart(data) {
+                var courseCode = [];
+                var numOfCandidate = [];
+                for (var i = 0; i < data.length; i++) {
+                    courseCode.push(data[i].courseCode);
+                    numOfCandidate.push(data[i].num);
+
+                }
+                console.log(courseCode);
+                console.log(numOfCandidate);
+                var ctx = document.getElementById("chartBar");
+                if (ctx) {
+                    ctx.height = 700;
+                    var myChart = new Chart(ctx, {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: courseCode,
+                            datasets: [
+                                {
+                                    label: "Candidate in Event",
+                                    data: numOfCandidate,
+                                    borderColor: "rgba(0, 123, 255, 0.9)",
+                                    borderWidth: "0",
+                                    backgroundColor: "rgba(0, 123, 255, 0.5)"
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    fontFamily: 'Poppins'
+                                }
+
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        fontFamily: "Poppins"
+
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontFamily: "Poppins"
+                                    }
+                                }]
+                            }
+                        },
+                        categoryPercentage: 1,
+
+                    });
+                }
+
+
+            }
+            var lbNumOfCandidate = document.getElementById("lbNumOfCandidate");
+            var currentDate = new Date();
+            var month = currentDate.getMonth() + 1;
+            /* console.log("current month: " + month); */
+            if (month >= 1 && month <= 3) {
+                lbNumOfCandidate.innerHTML = "Candidate number at this Spring (from Jan to Mar)";
+            } else if (month >= 4 && month <= 6) {
+                lbNumOfCandidate.innerHTML = "Candidate number at this Summer (from Apr to Jul)";
+            } else if (month >= 7 && month <= 9) {
+                lbNumOfCandidate.innerHTML = "Candidate number at this Autumn (from Jul to Sep)";
+            } else {
+                lbNumOfCandidate.innerHTML = "Candidate number at this Winter (from Oct to Dec)";
+            }
+
+
+
+
+            //chartSkill
+            function rederChartSkill(data) {
+                var skill = [];
+                var count = [];
+                for (var i = 0; i < data.length; i++) {
+                    skill.push(data[i].skill);
+                    count.push(data[i].num);
+                }
+		    	/* console.log(skill);
+		    	console.log(count); */
+                var ctx = document.getElementById("chartBarWidget");
+                if (ctx) {
+                    ctx.height = 115;
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: skill,
+                            datasets: [
+                                {
+                                    label: "Event(s) On Going",
+                                    data: count,
+                                    borderColor: "transparent",
+                                    borderWidth: "0",
+                                    backgroundColor: "rgba(255,255,255,.3)"
+                                }
+                            ]
+                        },
+                        options: {
+                            maintainAspectRatio: true,
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false,
+                                    categoryPercentage: 1,
+                                    barPercentage: 0.65
+                                }],
+                                yAxes: [{
+                                    display: false,
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            }
+
+            function showEventStatus(data) {
+                var planning = 0;
+                var ongoing = 0;
+                var done = 0;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].status == "Planning") {
+                        planning++;
+                    } else if (data[i].status == "On Going") {
+                        ongoing++;
+                    } else if (data[i].status == "Done") {
+                        done++;
+                    }
+                }
+                /*    	console.log(planning);
+                       console.log(ongoing);
+                       console.log(done); */
+                var pln = document.getElementById("planning");
+                var og = document.getElementById("ongoing");
+                var dn = document.getElementById("done");
+                pln.innerHTML = "Planning: " + planning;
+                og.innerHTML = "On Going: " + ongoing;
+                dn.innerHTML = "Done: " + done;
+            }
+
+            function showTotalCandidate(data) {
+                var c = 0;
+                var month = [];
+                var count = [];
+                for (var i = 0; i < data.length; i++) {
+                    count.push(data[i]);
+                    c++;
+                }
+                var newMonthArr = [];
+                var monthArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                for (var x = 0; x < c; x++) {
+                    newMonthArr[x] = monthArr[x];
+                    /* 	console.log(newMonthArr); */
+                }
+                var ctx = document.getElementById("chart3");
+                if (ctx) {
+                    ctx.height = 200;
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: newMonthArr,
+                            type: 'line',
+                            datasets: [{
+                                data: count,
+                                label: 'Candidate',
+                                backgroundColor: 'rgba(255,255,255,.1)',
+                                borderColor: 'rgba(255,255,255,.55)',
+                            },]
+                        },
+                        options: {
+
+                            maintainAspectRatio: true,
+                            legend: {
+                                display: false
+                            },
+                            layout: {
+                                padding: {
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0
+                                }
+                            },
+                            responsive: true,
+
+                            scales: {
+                                xAxes: [{
+                                    gridLines: {
+                                        color: 'transparent',
+                                        zeroLineColor: 'transparent'
+                                    },
+                                    ticks: {
+                                        fontSize: 2,
+                                        fontColor: 'transparent'
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: false,
+                                    ticks: {
+                                        display: false,
+                                    }
+                                }]
+                            },
+                            title: {
+                                display: false,
+                            },
+                            elements: {
+                                line: {
+                                    borderWidth: 1
+                                },
+                                point: {
+                                    radius: 0,
+                                    hitRadius: 10,
+                                    hoverRadius: 4
+                                },
+
+                            }
+                        }
+                    });
+                }
+
+            }
+
+
+
+            function renderChartSchool(data) {
+                var schoolName = [];
+                var countEvent = [];
+                for (var i = 0; i < data.length; i++) {
+                    schoolName.push(data[i].skill);
+                    countEvent.push(data[i].num);
+                }
+                var ctx = document.getElementById("chart4");
+                if (ctx) {
+                    ctx.height = 200;
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: schoolName,
+                            datasets: [
+                                {
+                                    label: "Event(s)a",
+                                    data: countEvent,
+                                    borderColor: "transparent",
+                                    borderWidth: "0",
+                                    backgroundColor: "rgba(255,255,255,.3)"
+                                }
+                            ]
+                        },
+                        options: {
+                            maintainAspectRatio: true,
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false,
+                                    categoryPercentage: 1,
+                                    barPercentage: 0.65
+                                }],
+                                yAxes: [{
+                                    display: false,
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+
+                var desc = document.getElementById("lbdescSchool");
+                var currentDate = new Date();
+                var month = currentDate.getMonth() + 1;
+                /* console.log("current month: " + month); */
+                if (month >= 1 && month <= 3) {
+                    desc.innerHTML = "Spring 2019";
+                } else if (month >= 4 && month <= 6) {
+                    desc.innerHTML = "Summer 2019";
+                } else if (month >= 7 && month <= 9) {
+                    desc.innerHTML = "Autumn 2019";
+                } else {
+                    desc.innerHTML = "Winter 2019";
+                }
+
+            }
+
+            $.getJSON("http://localhost:8080/api/report6", renderChartSchool);
+            $.getJSON("http://localhost:8080/api/report5", showTotalCandidate);
+            $.getJSON("http://localhost:8080/api/report4", showEventStatus);
+            $.getJSON("http://localhost:8080/api/report3", rederChartSkill);
+            $.getJSON("http://localhost:8080/api/report2", renderChartCircle);
+            $.getJSON("http://localhost:8080/api/report", renderBarChart);
+        }
+
+        function handleSelect(elm) {
+
+            window.location = elm.value + ".html";
+        }
+    </script>
+    <!-- Canvas Chart -->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js">
+
+    </script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+
+    </script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js">
+
+    </script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js">
+
+    </script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->

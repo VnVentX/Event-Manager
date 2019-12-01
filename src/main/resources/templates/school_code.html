@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<div th:replace="fragments/header :: header-css" />
+
+	<!-- Title Page-->
+	<title>SchoolCode</title>
+	<!-- Style -->
+	<style>
+		.flex-content {
+			display: flex;
+			justify-content: space-between;
+		}
+	</style>
+</head>
+
+<body class="animsition">
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<div class="section__content section__content--p30">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<!-- DATA TABLE-->
+								<div class="card ">
+									<div class="card-header flex-content">
+										<div>
+											<strong>School </strong>Code
+										</div>
+
+									</div>
+									<div class="card-body card-block">
+										<div class="table-responsive table-responsive-data2">
+											<table id="tableSchoolCode" class="table table-data2">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Site</th>
+														<th>University Name</th>
+														<th>Faculty Type</th>
+														<th>University Code</th>
+														<th>Hot Key</th>
+														<th>Faculty Code</th>
+														<th>Level</th>
+														<th>Co-operation Start</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+									</div>
+								</div>
+								<!-- END DATA TABLE-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="fragments/header :: after-body-script" />
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var tableCounter = $('#tableSchoolCode').DataTable({
+					"buttons": [
+						{
+							extend: 'excelHtml5',
+							text: 'Styled Excel',
+							exportOptions: {
+								columns: [1, 2, 3, 4, 5, 6, 9, 7, 8]
+							},
+							customize: function (xlsx) {
+								var source = xlsx.xl['workbook.xml'].getElementsByTagName('sheet')[0];
+								source.setAttribute('name', 'Event Code');
+							}
+						}
+					],
+					stateSave: true,
+					"aLengthMenu": [5, 10, 15, 100],
+					"columnDefs": [
+						{
+							searchable: false,
+							orderable: false,
+							sortable: false,
+							target: 0
+						},
+						{
+							"targets": 8,
+							"render": $.fn.dataTable.render.moment('DD/MM/YYYY')
+						}
+					],
+					"ajax": {
+						url: 'http://localhost:8080/api/schoolCode',
+						dataSrc: ''
+					},
+					"columns": [
+						{ data: null },
+						{ data: "site" },
+						{
+							data: "universityName",
+							mRender: function (data, type, row) {
+								return '<a href="/editSchool/' + row.idSchoolCode + '">' + data + '</a>'
+							}
+						},
+						{ data: "facultyName" },
+						{
+							data: "universityCode"
+						},
+						{ data: "hotKey" },
+						{ data: "facultyCode" },
+						{ data: "rank" },
+						{ data: "cooperationStart" },
+						{
+							data: null,
+							mRender: function (data) {
+								return '<button id="btn" class="btn btn-success">Submit<button>';
+							}
+						},
+					]
+				})
+
+				$('#tableSchoolCode tbody').on('click', 'tr', '#btn', function () {
+					var data = $.map(tableCounter.row(this).data(), function (i) {
+						return i
+					})
+					console.log(data[2])
+				});
+
+				tableCounter.on('order.dt search.dt', function () {
+					tableCounter.column(0, { searchable: false, orderable: false }).nodes().each(function (cell, i) {
+						cell.innerHTML = i + 1;
+						tableCounter.cell(cell).invalidate('dom');
+					});
+				}).draw();
+			});
+		</script>
+</body>
+
+</html>
+<!-- end document-->

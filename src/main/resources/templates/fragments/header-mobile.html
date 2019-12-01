@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="header-mobile">
+		<!-- HEADER MOBILE-->
+		<header class="header-mobile d-block d-lg-none">
+			<div class="header-mobile__bar">
+				<div class="container-fluid">
+					<div class="header-mobile-inner">
+						<a class="logo" href="index.html" th:href="@{/homepage}"> <img
+								th:src="@{/images/icon/FPT_Software_Logo.png}" style="height: 50px" alt="FPT" />
+						</a>
+						<button class="hamburger hamburger--slider" type="button">
+							<span class="hamburger-box"> <span class="hamburger-inner"></span>
+							</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<nav class="navbar-mobile">
+				<div class="container-fluid">
+					<ul class="navbar-mobile__list list-unstyled">
+						<li class="has-sub"><a class="js-arrow" href="#"> <i class="far fa-calendar"></i>Manage Event
+							</a>
+							<ul class="list-unstyled navbar__sub-list js-sub-list">
+								<li><a th:href="@{/createEvent}">Planned New Event</a></li>
+							</ul>
+						</li>
+						<li><a th:href="@{/manageCandidate}"> <i class="fas fa-users"></i>Manage Candidate
+							</a></li>
+						<li class="has-sub"><a class="js-arrow" href="#"> <i class="fas fa-wrench"></i>Manage Param
+							</a>
+							<ul class="list-unstyled navbar__sub-list js-sub-list">
+								<li><a th:href="@{/schoolCode}">School code</a></li>
+								<li><a th:href="@{/campusLink}">Campuslink program</a></li>
+							</ul>
+						</li>
+						<li>
+							<a th:href="@{/report}">
+								<i class=" fas fa-table"></i>Report
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<!-- END HEADER MOBILE-->
+	</div>
+</body>
+
+</html>

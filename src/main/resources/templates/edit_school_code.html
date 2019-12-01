@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div th:replace="fragments/header :: header-css" />
+
+    <!-- Title Page-->
+    <title>SchoolCode</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <div th:replace="fragments/header-mobile :: header-mobile" />
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <div th:replace="fragments/header :: header" />
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Edit School Code</strong>
+                                    </div>
+                                    <form id="saveSchoolCode" th:action="@{/saveSchool}" th:object="${school}"
+                                        method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <div class="card-body card-block">
+                                            <!-- Site -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="select" class=" form-control-label">Site</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="site" name="site" placeholder="HCM"
+                                                        class="form-control" th:value=*{site} readonly>
+                                                </div>
+                                            </div>
+
+                                            <!-- University name -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="text-input" class=" form-control-label">University Name
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="universityName" name="universityName"
+                                                        placeholder="Please Input" class="form-control"
+                                                        th:value="*{universityName}" />
+                                                </div>
+                                            </div>
+
+                                            <!-- Faculty name -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="select" class=" form-control-label">Faculty Name
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="facultyName" name="facultyName"
+                                                        placeholder="Please Input" class="form-control"
+                                                        th:value="*{facultyName}" />
+                                                </div>
+                                            </div>
+
+                                            <!-- University code -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="text-input" class=" form-control-label">University
+                                                        Code</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="universityCode" name="universityCode"
+                                                        placeholder="HCM.SchoolCode" class="form-control"
+                                                        th:value="*{universityCode}" />
+                                                </div>
+                                            </div>
+
+                                            <!-- HOT KEY -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="select" class=" form-control-label">Hot Key</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="hotKey" name="hotKey" placeholder="Hot Key"
+                                                        class="form-control" th:value="*{hotKey}" />
+                                                </div>
+                                            </div>
+
+                                            <!-- Faculty code -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="text-input" class=" form-control-label">Faculty
+                                                        Code</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="facultyCode" name="facultyCode"
+                                                        placeholder="Faculty code" class="form-control"
+                                                        th:value="*{facultyCode}" />
+                                                </div>
+                                            </div>
+                                            <!-- Level -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="text-input" class=" form-control-label">Level</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="rank" name="rank" placeholder="Number"
+                                                        class="form-control" th:value="*{rank}" />
+                                                </div>
+                                            </div>
+
+                                            <!-- Co-operation start -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="text-input" class=" form-control-label">Co-operation
+                                                        Start</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <input type="text" id="cooperationStart" name="cooperationStart"
+                                                        class="form-control datepicker-here" th:value="*{#dates.format(cooperationStart, 'dd/MM/yyyy')}"/>
+                                                </div>
+                                            </div>
+
+                                            <!-- Note -->
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    <label for="textarea-input" class=" form-control-label">Note</label>
+                                                </div>
+                                                <div class="col-12 col-md-10">
+                                                    <textarea name="note" id="note" rows="9"
+                                                        placeholder="Content..." class="form-control" th:value=*{note}></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                        	<input type="hidden" name="idSchoolCode" th:value="*{idSchoolCode}"/>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-dot-circle-o"></i> Submit
+                                            </button>
+                                            <button type="reset" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-ban"></i> Reset
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+	<div th:replace="fragments/header :: after-body-script" />
+	<script>
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'dd/mm/yyyy',
+            timeFormat: 'hh:ii aa',
+            firstDay: 0
+        };
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#saveSchoolCode").validate({
+                rules: {
+                    universityName: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    facultyName: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    universityCode: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    hotKey: {
+                        required: true,
+                        digits: true
+                    },
+                    facultyCode: {
+                        required: true
+                    },
+                    rank: {
+                        required: true,
+                        digits: true
+                    },
+                    cooperationStart: {
+                        required: true,
+                        pattern: /^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-.\/])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$/
+                    },
+                    note: {
+                        maxlength: 3000
+                    }
+
+                },
+                messages: {
+                    universityName: "University Name cannot be blank and max length is 50 characters",
+                    facultyName: "Faculty Name cannot be blank and max length is 50 characters",
+                    universityCode: "University Code cannot be blank and max length is 50 characters",
+                    hotKey: "Hot Key cannot be blank and must be a digit",
+                    facultyCode: "Faculty Code cannot be blank and max length is 10 characters",
+                    rank: "Rank cannot be blank and must be a digit",
+                    cooperationStart: "Cooperation Start cannot be blank and must be a valid date",
+                    note: "Note Planned expense required max length 3000 characters"
+                },
+                highlight: function (element) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass('is-invalid');
+                },
+
+            });
+        });
+    </script>
+</body>
+
+</html>
+<!-- end document-->

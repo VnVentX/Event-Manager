@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="fragments/header :: header-css" />
+	<!-- Title Page-->
+	<title>Create Candidate</title>
+</head>
+<style>
+	.error {
+		color: red;
+	}
+</style>
+
+<body class="animsition">
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<div class="section__content section__content--p30">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-header">
+										<strong>Create Candidate</strong>
+									</div>
+									<form id="saveCandidate" th:action="@{/saveCandidate}" th:object="${candidate}"
+										method="post" enctype="multipart/form-data" class="form-horizontal">
+										<div class="card-body card-block">
+											<!-- Email -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class=" form-control-label">Email</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" class="form-control" id="email" name="email" />
+												</div>
+											</div>
+
+											<!-- Full Name -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Full
+														Name</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" class="form-control" id="name" name="name">
+												</div>
+											</div>
+
+											<!-- DOB -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class=" form-control-label">DOB</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="date" class="form-control" id="dateOfBirth"
+														name="dateOfBirth" />
+												</div>
+											</div>
+
+											<!-- School -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">School</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select name="idSchoolCode" id="idSchoolCode" class="form-control">
+														<option value="0">Please select</option>
+														<option th:each="SchoolCode : ${listSchool}"
+															th:value="${SchoolCode.idSchoolCode}"
+															th:text="${SchoolCode.universityName}"></option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Gender -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Gender</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select id="gender" name="gender" class="form-control">
+														<option>Male</option>
+														<option>Female</option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Phone -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="select" class="form-control-label">Phone</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<input type="text" class="form-control" id="phone" name="phone" />
+												</div>
+											</div>
+
+
+											<!-- Skill -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="text-input" class=" form-control-label">Skill</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<select name="idSubSubject" id="idSubSubject" class="form-control">
+														<option value="0">Please select</option>
+														<option th:each="SubSubjectType : ${listSubSubjectType}"
+															th:value="${SubSubjectType.idSubSubject}"
+															th:text="${SubSubjectType.skill}"></option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Note -->
+											<div class="row form-group">
+												<div class="col col-md-2">
+													<label for="textarea-input" class=" form-control-label">Note</label>
+												</div>
+												<div class="col-12 col-md-10">
+													<textarea name="note" id="note" rows="9" placeholder="Content..."
+														class="form-control"></textarea>
+												</div>
+											</div>
+
+										</div>
+										<div class="card-footer">
+											<button type="submit" class="btn btn-primary btn-sm">
+												<i class="fa fa-upload"></i> Submit
+											</button>
+											<button type="reset" class="btn btn-secondary btn-sm">
+												<i class="fa fa-ban"></i> Reset
+											</button>
+										</div>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: after-body-script" />
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#saveCandidate").validate({
+				rules: {
+					email: {
+						required: true,
+						email: true
+					},
+					name: {
+						required: true,
+						maxlength: 50
+					},
+					dateOfBirth: {
+						isCurrentDate: true
+					},
+					idSchoolCode: {
+						selectcheck: true
+					},
+					gender: {
+						selectcheck: true
+					},
+					phone: {
+						required: true,
+						digits: true,
+						minlength: 10,
+						maxlength: 10
+					},
+					idSubSubject: {
+						selectcheck: true
+					},
+					note: {
+						maxlength: 3000
+					}
+
+				},
+				messages: {
+					email: "Email cannot be blank and must be valid",
+					name: "Full Name cannot be blank and max length is 50 characters",
+					phone: "Phone number cannot be blank and must be valid",
+					facultyCode: "Faculty Code cannot be blank and max length is 10 characters",
+					rank: "Rank cannot be blank and must be a digit",
+					cooperationStart: "Cooperation Start cannot be blank and must be a valid date",
+					note: "Note Planned expense required max length 3000 characters"
+				},
+				highlight: function (element) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight: function (element) {
+					$(element).removeClass('is-invalid');
+				},
+
+			});
+			var isCurrentDate = function (current, startDatestr) {
+				var inDate = new Date(current), eDate = new Date(startDatestr);
+				if (inDate > eDate) {
+					return true;
+				}
+				return false;
+			};
+			jQuery.validator.addMethod("isCurrentDate", function (value, element) {
+				var today = new Date();
+				var dd = String(today.getDate()).padStart(2, '0');
+				var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+				var yyyy = today.getFullYear();
+				today = mm + '/' + dd + '/' + yyyy;
+				return isCurrentDate(today, $('#dateOfBirth').val());
+			}, "Date of birth must be smaller than current date");
+			jQuery.validator.addMethod('selectcheck', function (
+				value) {
+				return (value !== '0');
+			}, "Please select your option");
+		});
+	</script>
+</body>
+
+</html>
+<!-- end document-->

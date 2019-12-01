@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="fragments/header :: header-css" />
+	<!-- Style -->
+	<style>
+		.modal-dialog.modal-lg {
+			top: 30%;
+		}
+
+		.group {
+			display: flex;
+		}
+
+		a.btn.btn-info.edit-button {
+			margin-right: 5px;
+		}
+
+		.table-data2.table tbody td {
+			font-size: 14px;
+			color: #808080;
+			vertical-align: middle;
+			padding: 25px 15px;
+			padding-right: 10px;
+			border: none;
+		}
+
+		.flex-content {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.error {
+			color: red;
+		}
+	</style>
+</head>
+
+<body class="animsition">
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<div class="section__content section__content--p30">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<!-- Campuslink program -->
+								<div class="card ">
+									<div class="card-header flex-content">
+										<div>
+											<strong>Campuslink </strong>program
+										</div>
+										<div style="display: flex;">
+											<div class="dropdown show" style="margin-left: 5px; ">
+												<a class="btn btn-success dropdown-toggle" href="#" role="button"
+													id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													Insert Campus
+												</a>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+													<a class="dropdown-item new-button" href="#">Manually</a>
+													<a class="dropdown-item" th:href="@{/404}">Import From Excel</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-body card-block">
+										<div class="table-responsive table-responsive-data2">
+											<table id="campusLink" class="table table-responsive-data2">
+												<thead>
+													<tr>
+														<td>#</td>
+														<td>Campuslink program</td>
+														<td>Code</td>
+														<td>Time</td>
+														<td>Action</td>
+													</tr>
+												</thead>
+												<!-- <tbody>
+													<tr th:each="campus,iterStat : ${campusList}">
+														<td>
+															<div class="table-data__info">
+																<div class="table-data__info">
+																	<span th:text="${iterStat.count}"></span>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="table-data__info">
+																<div class="table-data__info">
+																	<span th:text="${campus.programName}"></span>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="table-data__info">
+																<div class="table-data__info">
+																	<span th:text="${campus.programCode}"></span>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="table-data__info">
+																<span th:text="${campus.time}"></span>
+															</div>
+														</td>
+														<td>
+															<button type="button" class="btn"
+																th:classappend="${campus.status} ? btn-outline-danger : btn-outline-success">
+																<span
+																	th:text="${campus.status} ? Disable : Active "></span>
+															</button>
+														</td>
+														<td>
+															<div class="group">
+																<a th:href="@{findId/(id=${campus.idCProgram})}"
+																	class="btn btn-info edit-button">
+																	Edit
+																</a>
+																<form th:action="@{/disableCProgram}" method="POST">
+																	<input type="hidden" id="idCProgram"
+																		name="idCProgram" class="form-control"
+																		th:value="${campus.idCProgram}" />
+																	<button type="submit" class="btn"
+																		th:text="${campus.status} ? Active : Disable "
+																		th:classappend="${campus.status} ? btn-success : btn-danger">
+																	</button>
+																</form>
+															</div>
+														</td>
+													</tr>
+												</tbody> -->
+											</table>
+										</div>
+									</div>
+								</div>
+								<!-- END USER DATA-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal large -->
+		<div class="myForm">
+			<form id="saveCampus" th:action="@{/saveCProgram}" method="post">
+				<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="largeModalLabel">Create Campus
+									Link</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- CP Code -->
+								<input type="hidden" id="idCProgram" name="idCProgram" class="form-control" />
+
+								<!-- Campuslink Program -->
+								<div class="row form-group">
+									<div class="col col-md-2">
+										<label for="programName" class=" form-control-label">Campuslink
+											Program</label>
+									</div>
+									<div class="col-12 col-md-10">
+										<input type="text" id="programName" name="programName" value=""
+											class="form-control" />
+									</div>
+								</div>
+
+								<!-- Code -->
+								<div class="row form-group">
+									<div class="col col-md-2">
+										<label for="programCode" class=" form-control-label">Code</label>
+									</div>
+									<div class="col-12 col-md-10">
+										<input type="text" id="programCode" name="programCode" value=""
+											class="form-control" />
+									</div>
+								</div>
+								<!-- Time -->
+								<div class="row form-group">
+									<div class="col col-md-2">
+										<label for="time" class=" form-control-label">Time</label>
+									</div>
+									<div class="col-12 col-md-10">
+										<input type="text" id="time" name="time" value="" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+								<input type="submit" class="btn btn-primary" value="Confirm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- end modal large -->
+	</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: after-body-script" />
+	<script>
+		$(document).ready(function () {
+			var tableCounter = $('#campusLink').DataTable({
+				stateSave: true,
+				"aLengthMenu": [5, 10, 15, 100],
+				"columnDefs": [{
+					searchable: false,
+					orderable: false,
+					sortable: false,
+					target: 0
+				}],
+				"ajax": {
+					url: 'http://localhost:8080/api/campusLink',
+					dataSrc: ''
+				},
+				"columns": [{
+						data: null
+					},
+					{
+						data: "programName"
+					},
+					{
+						data: "programCode"
+					},
+					{
+						data: "time"
+					},
+					{
+						data: "idCProgram",
+						mRender: function (data, row) {
+							return '<a href="/findId/' + data +
+								'" class="btn btn-info edit-button">Edit</a>'
+						}
+					},
+				]
+			})
+			tableCounter.on('order.dt search.dt', function () {
+				tableCounter.column(0, {
+					searchable: false,
+					orderable: false
+				}).nodes().each(function (cell, i) {
+					cell.innerHTML = i + 1;
+					tableCounter.cell(cell).invalidate('dom');
+				});
+			}).draw();
+		});
+		$('.edit-button').on('click', function (e) {
+			e.preventDefault()
+			var href = $(this).attr('href')
+			$.get(href, function (campus, status) {
+				$('.myForm #idCProgram').val(campus.idCProgram)
+				$('.myForm #programName').val(campus.programName)
+				$('.myForm #programCode').val(campus.programCode)
+				$('.myForm #time').val(campus.time)
+			})
+			$('.myForm #largeModal').modal()
+			return false;
+		})
+
+		$('.new-button').on('click', function (e) {
+			e.preventDefault()
+			$('.myForm #idCProgram').val(0)
+			$('.myForm #programName').val('')
+			$('.myForm #programCode').val('')
+			$('.myForm #time').val('')
+			$('.myForm #largeModal').modal()
+		})
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#saveCampus").validate({
+				rules: {
+					programCode: {
+						required: true,
+						maxlength: 50
+					},
+					programName: {
+						required: true,
+						maxlength: 50
+					},
+					time: {
+						required: true,
+						digits: true
+					}
+				},
+				messages: {
+					programCode: "Code cannot be blank and max length is 10 characters",
+					programName: "Program Name cannot be blank and max length is 50 characters",
+					time: "Time cannot be blank and must be a digit"
+				},
+				highlight: function (element) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight: function (element) {
+					$(element).removeClass('is-invalid');
+				},
+
+			});
+		});
+	</script>
+</body>
+
+</html>
+<!-- end document-->

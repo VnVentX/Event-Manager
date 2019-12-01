@@ -1,0 +1,12 @@
+package g3.com.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class ImportController {
+	@RequestMapping(value = { "/import" , "/import/{idEvent}" })
+	public String importExcel() {
+		return "import";
+	}
+}

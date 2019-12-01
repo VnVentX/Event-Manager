@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<div th:replace="fragments/header :: header-css" />
+<!-- Style -->
+
+<style>
+.table-data2.table tbody tr td:first-child {
+	vertical-align: middle;
+}
+.error{
+      color: red;
+}
+</style>
+
+<!-- Title Page-->
+<title>Overview Page</title>
+</head>
+
+<body class="animsition">
+	<div class="page-wrapper">
+		<!-- HEADER MOBILE-->
+		<div th:replace="fragments/header-mobile :: header-mobile" />
+		<!-- END HEADER MOBILE-->
+
+		<!-- MENU SIDEBAR-->
+		<div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+		<!-- END MENU SIDEBAR-->
+
+		<!-- PAGE CONTAINER-->
+		<div class="page-container">
+			<!-- HEADER DESKTOP-->
+			<div th:replace="fragments/header :: header" />
+			<!-- HEADER DESKTOP-->
+
+			<!-- MAIN CONTENT-->
+			<div class="main-content">
+				<!-- DATA TABLE-->
+				<section class="p-t-20">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="card">
+									<form id="editProfile" th:action="@{/editProfile}" method="post"
+										th:object="${currentUser}">
+										<div class="card-header">
+											<strong>Profile</strong>
+										</div>
+										<div class="card-body">
+											<div class="row form-group">
+												<div class="col col-md-4">
+													<label for="text-input" class=" form-control-label">Username</label>
+												</div>
+												<div class="col-12 col-md-8">
+													<input type="text" id="username" name="username"
+														class="form-control" th:value="*{username}">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-4">
+													<label for="text-input" class=" form-control-label">Email</label>
+												</div>
+												<div class="col-12 col-md-8">
+													<div class="form-control disable" th:text="*{email}">
+
+													</div>
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-4">
+													<label for="text-input" class=" form-control-label">Phone</label>
+												</div>
+												<div class="col-12 col-md-8">
+													<input type="text" id="phone" name="phone"
+														class="form-control" th:value="*{phone}">
+												</div>
+											</div>
+										</div>
+										<div class="card-footer">
+											<button type="submit" class="btn btn-sm btn-primary">
+												<i class="fa fa-upload"></i> Update Info
+											</button>
+											<button type="reset" class="btn btn-sm btn-secondary">
+												<i class="fa fa-times"></i> Reset
+											</button>
+										</div>
+									</form>
+									<div class="alert alert-success" role="alert"
+										th:if="${(param.success != null)}">Update successfully!</div>
+									<div class="alert alert-danger" role="alert"
+										th:if="${(param.failed != null)}">Update failed!</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- END DATA TABLE-->
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments/header :: after-body-script" />
+	<script type="text/javascript">
+        $(document).ready(function () {
+	    $("#editProfile").validate({
+	        rules: {
+	        	username : {
+	                required: true,
+	                maxlength: 50
+	            },
+	            phone: {
+	            	required : true,
+	            	digits: true,
+                        minlength : 10,
+                        maxlength : 10
+	            }
+	        },
+	        messages: {
+	        	username: "Username cannot be blank and max length is 50 characters",
+	        	phone: "Phone cannot be blank and must be valid"
+	        },
+	        highlight: function (element) {
+	            $(element).addClass('is-invalid');
+	        },
+	        unhighlight: function (element) {
+	            $(element).removeClass('is-invalid');
+	        },
+
+	    });
+	});
+    </script>
+</body>
+
+</html>
+<!-- end document-->

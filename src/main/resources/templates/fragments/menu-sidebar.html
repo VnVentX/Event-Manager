@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+</head>
+
+<body>
+	<div th:fragment="menu-sidebar">
+		<!-- MENU SIDEBAR-->
+		<aside class="menu-sidebar d-none d-lg-block">
+			<div class="logo">
+				<a th:href="@{/homepage}"> <img th:src="@{/images/icon/FPT_Software_Logo.png}"
+						style="height: 70px; margin-left: 45%;" alt="FPT" />
+				</a>
+			</div>
+			<div class="menu-sidebar__content js-scrollbar1">
+				<nav class="navbar-sidebar">
+					<ul class="list-unstyled navbar__list">
+						<li class="has-sub" th:classappend="${#httpServletRequest.getRequestURI() == '/createEvent' ? 'active':''}" >
+							<a class="js-arrow" href="#" th:classappend="${#httpServletRequest.getRequestURI() == '/createEvent' ? 'open':''}">
+								<i class="far fa-calendar"></i>
+								Manage Event
+							</a>
+							<ul class="list-unstyled navbar__sub-list js-sub-list" th:style="${#httpServletRequest.getRequestURI() == '/createEvent' ? 'display: block;' : ''}">
+								<li th:classappend="${#httpServletRequest.getRequestURI() == '/createEvent' ? 'active':''}">
+									<a th:href="@{/createEvent}">Planned New Event</a>
+								</li>
+							</ul>
+						</li>
+						<li th:classappend="${#httpServletRequest.getRequestURI() == '/manageCandidate' ? 'active':''}">
+							<a th:href="@{/manageCandidate}"> 
+								<i class="fas fa-users"></i>Manage Candidate
+							</a>
+						</li>	
+						<li class="has-sub" th:classappend="${#httpServletRequest.getRequestURI()} == '/schoolCode' ? 'active' : (${#httpServletRequest.getRequestURI()} == '/campusLink' ? 'active' : '' ) ">
+							<a class="js-arrow" href="#" th:classappend="${#httpServletRequest.getRequestURI()} == '/schoolCode' ? 'open': (${#httpServletRequest.getRequestURI()} == '/campusLink' ? 'open' : '' ) "> 
+								<i class="fas fa-wrench"></i>Manage Param
+							</a>
+							<ul class="list-unstyled navbar__sub-list js-sub-list" th:style="${#httpServletRequest.getRequestURI()} == '/schoolCode' ? 'display: block;':(${#httpServletRequest.getRequestURI()} == '/campusLink' ? 'display: block;' : '' )">
+								<li class="scroll" th:classappend="${#httpServletRequest.getRequestURI() == '/schoolCode' ? 'active':''}">
+									<a th:href="@{/schoolCode}">School
+										code</a>
+									</li>
+								<li class="scroll" th:classappend="${#httpServletRequest.getRequestURI() == '/campusLink' ? 'active':''}">
+									<a th:href="@{/campusLink}">Campuslink
+										program</a>
+									</li>
+							</ul>
+						</li>
+						<li th:classappend="${#httpServletRequest.getRequestURI() == '/report' ? 'active':''}">
+							<a href="#" th:href=@{/report}> 
+								<i class="fas fa-table"></i>Report
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</li>
+		</aside>
+		<!-- END MENU SIDEBAR-->
+
+	</div>
+</html>

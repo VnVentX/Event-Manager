@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="fragments/header :: header-css" />
+
+    <!-- Title Page-->
+    <title>Candidate Manager</title>
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <div th:replace="fragments/header-mobile :: header-mobile" />
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <div th:replace="fragments/menu-sidebar :: menu-sidebar" />
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <div th:replace="fragments/header :: header" />
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="container">
+                    <div style="width: 60%; height: 20%; margin-left: 10px;" class="float-left">
+                        <form id="xlsxform" method="post" enctype="multipart/form-data" style="width: 80%;"
+                            class="float-left">
+                            <div class="custom-file" dir="rtl">
+                                <input id="xlsxfile" type="file" class="file-loading" data-show-preview="false">
+                            </div>
+                        </form>
+                        <br>
+                        <br>
+
+                        <div class="float-md-left container" style="display:none;" id="uploadButton">
+                        
+                        <div class="float-md-left container" >
+                            <button id="upload" class="btn btn-primary btn-md active"
+                                aria-pressed="true">Upload</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="container" id="containerSelectSheet" style="display:none;">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <fieldset id="selectSheetFieldset">
+                                <label for="selectSheet" style="color:blue">Select a sheet</label>
+                                <select class="form-control" id="selectSheet" style="overflow-y:auto"></select>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-sm-6" style="align-self: center;">
+                            <button id="submitSheet" type="button" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="container" id="containerSheetJson" style="display:none; width: 100%;">
+                    <div>
+                        <h3>Your sheet</h3>
+                    </div>
+                    <br>
+                    <div id="sheetJson"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div th:replace="fragments/header :: after-body-script" />
+
+    <script>
+        function xlsxToJson(workbook, sheetName1) {
+            var result = {};
+            workbook.SheetNames.forEach(function (sheetName) {
+                var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],
+                    { raw: false, header: 1, blankrows: false, defval: "" });
+                if (roa.length > 0 && sheetName1 == sheetName) result[sheetName] = roa;
+            });
+            return result;
+        }
+
+        function to_json_upload(workbook, sheetName1) {
+            var result = {};
+            workbook.SheetNames.forEach(function (sheetName) {
+                var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],
+                    { raw: false, header: 1, blankrows: false });
+                if (roa.length > 0 && sheetName1 == sheetName) result[sheetName] = roa;
+            });
+            return result;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('input[type=file]').fileinput({
+                showUpload: false,
+                showRemove: false,
+                rtl: true
+            });
+            var re = /(?:\.([^.]+))?$/;
+            var listJson;
+            $("#xlsxfile").on("change", function () {
+                var myfile = $("#xlsxfile")[0].files[0];
+                if (re.exec(myfile.name)[1] != "xlsx") {
+                    alert("This is not a xlsx file!");
+                    $("#xlsxfile").val(null);
+                    throw new Error("extension != 'xlsx'");
+
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        var workbook = XLSX.read(reader.result, {
+                            type: 'binary', cellDates: true, cellStyles: true
+                        });
+                    } catch (err) {
+                        alert("Something is wrong with this xlsx file");
+                        $("#xlsxfile").val(null);
+                        throw new Error(err);
+                    }
+                    var sheetNames = [];
+                    if (sheetNames.length > 0) {
+                        sheetNames.splice(0, sheetNames.length);
+                    }
+                    sheetNames = workbook.SheetNames;
+                    var rightNames = ['Data List', 'Event Code', 'School Code', 'Param'];
+                    for (title of sheetNames) {
+                        for (let i = 0; i < rightNames.length; i++) {
+                            if (!rightNames.includes(title)) {
+                                alert("Sheet name must be in (Data List, Event Code, School Code, Param)")
+                                $("#xlsxfile").val(null);
+                                return;
+                            }
+                        }
+                    }
+                    // create the dropdown list
+                    if (sheetNames.length <= 5) {
+                        size = sheetNames.length;
+                    } else {
+                        size = 3;
+                    }
+                    $('#selectSheet').attr('size', size);
+                    if(sheetNames.length > 0){
+                    	$('#selectSheet').empty();
+                    }
+                    $(sheetNames).each(function (index, item) {
+                        $('#selectSheet').append($("<option>").attr('value', index).text(item));
+                    });
+                    $('#selectSheet option[value=0]').prop('selected', true);
+                    $('#containerSelectSheet').show();
+                    // submit action
+					
+                    if($('#sheetJson')){
+                    	$('#sheetJson').empty();
+                    }
+                    $('#submitSheet').click(function () {
+                        var json = xlsxToJson(workbook, $("#selectSheet option:selected").text());
+                        var newJson = to_json_upload(workbook, $("#selectSheet option:selected").text());
+
+                        listJson = json[Object.keys(json)[0]];
+                        var data2 = [json[Object.keys(json)[0]]],
+                            container2 = document.getElementById('sheetJson'),
+                            hot2;
+                        hot2 = new Handsontable(container2, {
+                            data: json[Object.keys(json)[0]],
+                            colHeaders: true,
+                            width: '100%',
+                            autoWrapRow: true,
+                            height: 600,
+                            rowHeaders: true,
+                            minSpareRows: 1
+                        });
+                        //$('#sheetJson').text(JSON.stringify(json));
+                        $('#containerSheetJson').show();
+                        $('#uploadButton').css('display', 'block');
+                        
+                        $("#upload").click(function (event) {
+                        	var linkImportCan = window.location.pathname;
+                        	var link = 'http://localhost:8080/import'
+                        	var id = linkImportCan.substring(linkImportCan.lastIndexOf('/') + 1);
+                        	var currentLink = window.location.href;
+                            for (let i = 0; i < sheetNames.length; i++) {
+                                if (sheetNames[i] === 'Data List') {
+                                	
+                                	if(currentLink == link){
+                                    $.ajax({
+                                        type: "POST",
+                                        contentType: "application/json; charset=utf-8",
+                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080/api/importCan' },
+                                        url: "http://localhost:8080/api/importCan",
+                                        data: JSON.stringify(newJson),
+                                        dataType: 'json',
+                                        timeout: 600000000,
+                                        statusCode: {
+                                            200: function () {
+                                                alert("Upload Success!!")
+                                            },
+                                            404: function () {
+                                                alert("Page not found");
+                                            },
+                                            500: function () {
+                                                alert("Upload Failed!!!");
+                                            }
+                                        }
+
+                                    });
+                                	} else{
+                                		$.ajax({
+                                            type: "POST",
+                                            contentType: "application/json; charset=utf-8",
+                                            
+                                            url: "http://localhost:8080/api/importCandidateEvent/" + id,
+                                            data: JSON.stringify(newJson),
+                                            dataType: 'json',
+                                            timeout: 600000000,
+                                            statusCode: {
+                                                200: function () {
+                                                    alert("Upload Success!!")
+                                                },
+                                                404: function () {
+                                                    alert("Page not found");
+                                                },
+                                                500: function () {
+                                                    alert("Upload Failed!!!");
+                                                }
+                                            }
+
+                                        });
+                                	}
+                                } else if (sheetNames[i] === 'Event Code') {
+                                    $.ajax({
+                                        type: "POST",
+                                        contentType: "application/json; charset=utf-8",
+                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080/api/importEvent' },
+                                        url: "http://localhost:8080/api/importEvent",
+                                        data: JSON.stringify(newJson),
+                                        dataType: 'json',
+                                        timeout: 600000000,
+                                        statusCode: {
+                                            200: function () {
+                                                alert("Upload Success!!")
+                                            },
+                                            404: function () {
+                                                alert("Page not found");
+                                            },
+                                            500: function () {
+                                                alert("Upload Failed!!!");
+                                            }
+                                        }
+
+                                    });
+                                } else if (sheetNames[i] === 'School Code') {
+                                    $.ajax({
+                                        type: "POST",
+                                        contentType: "application/json; charset=utf-8",
+                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080/api/importSchoolCode' },
+                                        url: "http://localhost:8080/api/importSchoolCode",
+                                        data: JSON.stringify(newJson),
+                                        dataType: 'json',
+                                        timeout: 600000000,
+                                        statusCode: {
+                                            200: function () {
+                                                alert("Upload Success!!")
+                                            },
+                                            404: function () {
+                                                alert("Page not found");
+                                            },
+                                            500: function () {
+                                                alert("Upload Failed!!!");
+                                            }
+                                        }
+
+                                    });
+                                } else if (sheetNames[i] === 'Param') {
+                                    $.ajax({
+                                        type: "POST",
+                                        contentType: "application/json; charset=utf-8",
+                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080/api/importParam' },
+                                        url: "http://localhost:8080/api/importParam",
+                                        data: JSON.stringify(newJson),
+                                        dataType: 'json',
+                                        timeout: 600000000,
+                                        statusCode: {
+                                            200: function () {
+                                                alert("Upload Success!!")
+                                            },
+                                            404: function () {
+                                                alert("Page not found");
+                                            },
+                                            500: function () {
+                                                alert("Upload Failed!!!");
+                                            }
+                                        }
+
+                                    });
+                                }
+                            }
+
+                        });
+
+                    });
+                }
+                reader.onerror = function (err) {
+                    alert("I can't read this file!");
+                    throw new Error(err);
+                };
+                reader.readAsBinaryString(myfile);
+
+            });
+
+
+        })
+
+    </script>
+</body>
+
+</html>
+<!-- end document-->
